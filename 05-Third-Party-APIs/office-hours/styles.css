@@ -1,0 +1,12 @@
+.container {
+    margin: auto 50px;
+}
+
+.cart-item {
+    display: flex;
+}
+
+/* > means all the children of .cart-item */
+.cart-item > div{
+    width: 25%;
+}

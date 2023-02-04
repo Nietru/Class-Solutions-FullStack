@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linked in bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Linked in my own css stylesheet after bootstrap link -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <title>Project Tracker</title>
+</head>
+
+<!-- -------------------------------------------------------------------------
+    ### Task 1: HTML Build 
+1. Create a header/hero area that welcomes users to the application and displays the current time and date using 
+    Day.js. The current time and date should be updated every second with `setInterval()`. The data should be formatted with the 
+    abbreviated month, day, full year, and time (e.g. `Jun 30, 2022 at 08:37:48 am`).
+
+2. Create a Bootstrap card component explaining the instructions of how to use the app and a button to open a 
+    [Bootstrap modal dialog](https://getbootstrap.com/docs/5.1/components/modal/).
+
+3. The modal should contain a form asking users to fill in the following data:
+    * The name of the project.
+    * The type of project (use a `<select>` drop-down).
+    * The date the project is due (use the `date` input type).
+    * Optional: Use the jQuery UI datepicker instead of `date` input type.
+
+4. Include a Bootstrap table that the project's information can be printed to with columns for the following data:
+    * Project name
+    * Project type
+    * Due date
+While you build, remember the following guidelines:
+* Ensure that any elements you need to interact with using JavaScript/jQuery are properly identified (e.g., form elements, the table body, etc.).
+* Use different `<input>` element attributes to help enforce rules, like different `type` attribute values, minimum values, and required! 
+    See the [MDN web docs on the HTML input element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input) for more guidance.
+* When in doubt, read the Bootstrap documentation. 
+---------------------------------------------------------------------------->
+
+<body>
+    <header class="p-5 mb-4 text-center header">
+        <h1>Project Tracker</h1>
+        <h2>
+          Current Time &amp; Date: <br />
+          <span id="time-display"></span>
+        </h2>
+      </header>
+  
+
+    <main class="container-fluid">
+        <div class="row">
+            <div class="col-md col xl-4">
+            <!-- Add project form and instructions -->
+                <div class="card mb-3"> <!-- utilizing a card here -->
+                    <h2 class="h4 card-header custom-card-header">Instructions</h2>
+                    <div class="card-body">
+                        <p class="card-text">
+                        Click the button below to open a form and provide information for the following:
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Project Name</li>
+                        <li class="list-group-item">Project Type</li>
+                        <li class="list-group-item">Due Date</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button
+                            class="btn btn-block btn-custom w-100"
+                            data-bs-toggle="modal"
+                            data-bs-target="#new-project-modal">
+                        Add Project
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md col-xl-8">
+                <!-------  Project Table  ------->
+                <table class="table table-custom">
+                    <thead> <!-- thead and th mean table header!!!! -->
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Due</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="project-display">    <!-- pay attention this id cuz it means we will probably add stuff later. -->
+                        <tr>
+                            <td>Project Tracker</td>
+                            <td>Web Application (Front End)</td>
+                            <td>06/30/2022</td>
+                            <td><button class="btn btn-sm">X</button></td>
+                        </tr>
+                        <tr class="project-today">
+                            <td>Project tracker</td>
+                            <td>Web Application (Front End)</td>
+                            <td>03/30/2022</td>
+                            <td><button class="btn btn-sm">X</button></td>
+                        </tr>
+                    </tbody>    
+                </table>
+            </div>
+        </div>
+    </main>
+
+<!-------  Modal for adding New Project  ------->
+    <div
+        class="modal fade"
+        id="new-project-modal"
+        tabindex="-1"
+        aria-labelledby="new-project-modal-label"
+        aria-hidden="true">
+    
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="project-form">    <!-- we have a form here and our form id -->
+                <div class="modal-header custom-modal-header">
+                    <h5 class="modal-title" id="new-project-modal-label">
+                        Add a new project
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="project-name-input">Project Name</label>
+                        <input
+                            type="text"
+                            id="project-name-input"
+                            class="form-control"
+                            placeholder="Enter the project's name"
+                            required />
+                        </div>
+                    <div class="mb-3">
+                        <label for="project-type-input" class="form-label">Project Type</label>
+                        <select id="project-type-input" class="form-select">    <!-- select gives up a dropdown!! -->
+                            <option value="Web Application (Front End)">    <!-- options for the dropdown-->
+                                Web Application (Front End)
+                            </option>
+                            <option value="Web Application (Back End)">
+                                Web Application (Back End)
+                            </option>
+                            <option value="Web Application (Full Stack)">
+                                Web Application (Full Stack)
+                            </option>
+                            <option value="Mobile Application">Mobile Application</option>
+                            <option value="Print Campaign">Print Campaign</option>
+                            <option value="Digital Marketing Campaign">Digital Marketing Campaign</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="project-date-input">Due Date</label>    <!-- dropdown for the date -->
+                        <input
+                            type="date"
+                            id="project-input-date"
+                            class="form-control"
+                            required  />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--
+                            The data-bs-dismiss attribute tells bootstrap to hide the <div class="modal-footer"> element, on click.
+                        -->
+                        <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                        Cancel
+                      </button>
+
+                      <button
+                        type="submit"
+                        class="btn btn-custom"
+                        data-bs-dismiss="modal">
+                        Add Project
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+                            
+
+
+<!-- Linked the bootstrap link -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- Linked jquery -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<!-- linked dayjs -->
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="crossorigin="anonymous"></script>
+
+
+</body>
+</html>
